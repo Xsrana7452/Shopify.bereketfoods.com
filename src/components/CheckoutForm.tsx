@@ -91,7 +91,7 @@ export default function CheckoutForm() {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-  const shipping = subtotal > 2000 ? 0 : 200;
+  const shipping = 190;
   const total = subtotal + shipping;
 
   // ─── Validation ───────────────────────────────────────────────
@@ -438,150 +438,28 @@ export default function CheckoutForm() {
 
             {/* Payment Method */}
             <section className="bg-white rounded-3xl p-6 border border-[#f0ece0]">
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-3 mb-4">
                 <div className="w-8 h-8 bg-[var(--color-forest)]/10 rounded-full flex items-center justify-center">
-                  <CreditCard className="w-4 h-4 text-[var(--color-forest)]" />
+                  <Truck className="w-4 h-4 text-[var(--color-forest)]" />
                 </div>
                 <h2 className="text-lg font-bold text-[#1a2e1c]">
                   Payment Method
                 </h2>
               </div>
-              <div className="space-y-3">
-                {/* Cash on Delivery */}
-                <label
-                  className={clsx(
-                    "flex items-center gap-4 p-4 rounded-2xl border-2 cursor-pointer transition-all",
-                    paymentMethod === "cod"
-                      ? "border-[var(--color-forest)] bg-[var(--color-forest)]/5"
-                      : "border-[#e0d9c8] hover:border-[#c8b896]"
-                  )}
-                >
-                  <input
-                    type="radio"
-                    name="payment"
-                    value="cod"
-                    checked={paymentMethod === "cod"}
-                    onChange={() => setPaymentMethod("cod")}
-                    className="sr-only"
-                  />
-                  <div
-                    className={clsx(
-                      "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all",
-                      paymentMethod === "cod"
-                        ? "border-[var(--color-forest)]"
-                        : "border-[#c8b896]"
-                    )}
-                  >
-                    {paymentMethod === "cod" && (
-                      <div className="w-2.5 h-2.5 bg-[var(--color-forest)] rounded-full" />
-                    )}
-                  </div>
-                  <Truck className="w-6 h-6 text-[var(--color-forest)] flex-shrink-0" />
-                  <div>
-                    <p className="text-sm font-bold text-[#1a2e1c]">
-                      Cash on Delivery
-                    </p>
-                    <p className="text-xs text-[#6b7c6b]">
-                      Pay when your order arrives at your doorstep
-                    </p>
-                  </div>
-                </label>
-
-                {/* JazzCash */}
-                <label
-                  className={clsx(
-                    "flex items-center gap-4 p-4 rounded-2xl border-2 cursor-pointer transition-all",
-                    paymentMethod === "jazzcash"
-                      ? "border-[#8B1C3C] bg-[#8B1C3C]/5"
-                      : "border-[#e0d9c8] hover:border-[#c8b896]"
-                  )}
-                >
-                  <input
-                    type="radio"
-                    name="payment"
-                    value="jazzcash"
-                    checked={paymentMethod === "jazzcash"}
-                    onChange={() => setPaymentMethod("jazzcash")}
-                    className="sr-only"
-                  />
-                  <div
-                    className={clsx(
-                      "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all",
-                      paymentMethod === "jazzcash"
-                        ? "border-[#8B1C3C]"
-                        : "border-[#c8b896]"
-                    )}
-                  >
-                    {paymentMethod === "jazzcash" && (
-                      <div className="w-2.5 h-2.5 bg-[#8B1C3C] rounded-full" />
-                    )}
-                  </div>
-                  <div className="w-9 h-9 bg-[#8B1C3C] rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Smartphone className="w-4 h-4 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-[#1a2e1c]">JazzCash</p>
-                    <p className="text-xs text-[#6b7c6b]">
-                      Quick Pay via JazzCash mobile wallet
-                    </p>
-                  </div>
-                  <span className="ml-auto text-[10px] font-bold bg-[#8B1C3C] text-white px-2 py-0.5 rounded-full">
-                    Quick Pay
-                  </span>
-                </label>
-
-                {/* EasyPaisa */}
-                <label
-                  className={clsx(
-                    "flex items-center gap-4 p-4 rounded-2xl border-2 cursor-pointer transition-all",
-                    paymentMethod === "easypaisa"
-                      ? "border-[#00A650] bg-[#00A650]/5"
-                      : "border-[#e0d9c8] hover:border-[#c8b896]"
-                  )}
-                >
-                  <input
-                    type="radio"
-                    name="payment"
-                    value="easypaisa"
-                    checked={paymentMethod === "easypaisa"}
-                    onChange={() => setPaymentMethod("easypaisa")}
-                    className="sr-only"
-                  />
-                  <div
-                    className={clsx(
-                      "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all",
-                      paymentMethod === "easypaisa"
-                        ? "border-[#00A650]"
-                        : "border-[#c8b896]"
-                    )}
-                  >
-                    {paymentMethod === "easypaisa" && (
-                      <div className="w-2.5 h-2.5 bg-[#00A650] rounded-full" />
-                    )}
-                  </div>
-                  <div className="w-9 h-9 bg-[#00A650] rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Smartphone className="w-4 h-4 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-[#1a2e1c]">EasyPaisa</p>
-                    <p className="text-xs text-[#6b7c6b]">
-                      Quick Pay via EasyPaisa mobile wallet
-                    </p>
-                  </div>
-                  <span className="ml-auto text-[10px] font-bold bg-[#00A650] text-white px-2 py-0.5 rounded-full">
-                    Quick Pay
-                  </span>
-                </label>
-              </div>
-
-              {(paymentMethod === "jazzcash" || paymentMethod === "easypaisa") && (
-                <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-xl">
-                  <p className="text-xs text-amber-800">
-                    <strong>Note:</strong> After placing the order, you will be redirected to the{" "}
-                    {paymentMethod === "jazzcash" ? "JazzCash" : "EasyPaisa"} payment gateway to complete your payment securely.
+              <div className="p-4 rounded-2xl border-2 border-[var(--color-forest)] bg-[var(--color-forest)]/5 flex items-center gap-4">
+                <div className="w-5 h-5 rounded-full border-2 border-[var(--color-forest)] flex items-center justify-center flex-shrink-0">
+                  <div className="w-2.5 h-2.5 bg-[var(--color-forest)] rounded-full" />
+                </div>
+                <Truck className="w-6 h-6 text-[var(--color-forest)] flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-bold text-[#1a2e1c]">
+                    Cash on Delivery (COD)
+                  </p>
+                  <p className="text-xs text-[#6b7c6b]">
+                    Pay cash when your order arrives at your doorstep
                   </p>
                 </div>
-              )}
+              </div>
             </section>
 
             {/* Submit */}
@@ -654,20 +532,9 @@ export default function CheckoutForm() {
                   <span>Rs. {subtotal.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-sm text-[#6b7c6b]">
-                  <span>Shipping</span>
-                  <span>
-                    {shipping === 0 ? (
-                      <span className="text-[var(--color-forest)] font-semibold">FREE</span>
-                    ) : (
-                      `Rs. ${shipping}`
-                    )}
-                  </span>
+                  <span>Standard Shipping</span>
+                  <span>Rs. 190</span>
                 </div>
-                {shipping > 0 && (
-                  <p className="text-xs text-[var(--color-forest)] bg-[var(--color-forest)]/5 px-3 py-2 rounded-lg">
-                    💡 Add Rs. {(2000 - subtotal).toLocaleString()} more for free shipping
-                  </p>
-                )}
                 <div className="flex justify-between text-base font-bold text-[#1a2e1c] pt-2 border-t border-[#f0ece0]">
                   <span>Total</span>
                   <span>Rs. {total.toLocaleString()}</span>

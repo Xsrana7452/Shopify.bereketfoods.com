@@ -42,42 +42,10 @@ export default function CartSheet() {
 
   const subtotal = getSubtotal();
 
-  const handleCheckout = async () => {
+  const handleCheckout = () => {
     if (items.length === 0) return;
-    setIsCheckingOut(true);
-    try {
-      const lines = items.map((item) => ({
-        merchandiseId: item.id, // Shopify Variant GID
-        quantity: item.quantity,
-      }));
-
-      console.log("[CartSheet] Creating cart with lines:", JSON.stringify(lines));
-
-      // Hit our server-side API route (avoids Next.js fetch caching on mutations)
-      const res = await fetch("/api/shopify/cart", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "create", lines }),
-      });
-
-      const data = await res.json();
-      console.log("[CartSheet] API response:", data);
-
-      if (!res.ok || data.error) {
-        alert(`Checkout Error: ${data.error || "Unknown error"}`);
-        return;
-      }
-
-      const { id, checkoutUrl } = data.cart;
-      setCartId(id);
-      setCheckoutUrl(checkoutUrl);
-      window.location.href = checkoutUrl;
-    } catch (err) {
-      console.error("[CartSheet] Checkout error:", err);
-      alert("Something went wrong while preparing checkout. Please try again.");
-    } finally {
-      setIsCheckingOut(false);
-    }
+    closeCart();
+    window.location.href = "/checkout";
   };
 
 

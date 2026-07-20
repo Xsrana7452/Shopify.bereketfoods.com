@@ -83,7 +83,7 @@ export default async function HomePage() {
     { icon: <Leaf className="w-7 h-7" />, title: "Pure & Natural", description: "Every ingredient carefully sourced from nature with zero artificial additives." },
     { icon: <Shield className="w-7 h-7" />, title: "Halal Certified", description: "Certified by Pakistan Halal Authority — safe for every Muslim household." },
     { icon: <Zap className="w-7 h-7" />, title: "Science-Backed", description: "Formulated with nutritional science to deliver optimal health benefits." },
-    { icon: <Truck className="w-7 h-7" />, title: "Fast Delivery", description: "Free shipping across Pakistan on orders over Rs. 2,000." },
+    { icon: <Truck className="w-7 h-7" />, title: "Fast Nationwide Delivery", description: "Standard nationwide shipping across Pakistan at flat Rs. 190." },
   ];
 
   const brands = ["Kuvvet", "Major Grains", "Kuvvet Porridge", "Jhat Hazam"];

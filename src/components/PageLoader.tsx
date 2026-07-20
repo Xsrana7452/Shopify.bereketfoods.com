@@ -20,7 +20,13 @@ function LoaderContent() {
   useEffect(() => {
     // Listen for internal clicks to trigger loader during navigation
     const handleLinkClick = (e: MouseEvent) => {
-      const target = (e.target as HTMLElement).closest("a");
+      // Ignore clicks on buttons (Add to Cart, Wishlist, Cart Drawer, etc.)
+      const targetElement = e.target as HTMLElement;
+      if (targetElement.closest("button") || targetElement.closest("[role='button']")) {
+        return;
+      }
+
+      const target = targetElement.closest("a");
       if (!target) return;
 
       const href = target.getAttribute("href");
