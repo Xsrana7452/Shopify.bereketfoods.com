@@ -23,6 +23,17 @@ export default async function HomePage() {
       variantId: node.variants.edges[0]?.node.id
     }));
 
+    const extractWeight = (item: any): number => {
+      const str = `${item.name || ""} ${item.weight || ""}`.toLowerCase();
+      const matchGrams = str.match(/(\d+)\s*(g|gram|grams)/i);
+      if (matchGrams) return parseInt(matchGrams[1], 10);
+      const matchKg = str.match(/([\d.]+)\s*kg/i);
+      if (matchKg) return Math.round(parseFloat(matchKg[1]) * 1000);
+      const matchNum = str.match(/(\d+)/);
+      if (matchNum) return parseInt(matchNum[1], 10);
+      return 0;
+    };
+
     formatted.sort((a: any, b: any) => {
       const getRank = (item: any) => {
         const name = (item.name || "").toLowerCase();
@@ -35,7 +46,25 @@ export default async function HomePage() {
         if (name.includes("kuvvet") || brand.includes("kuvvet")) return 1;
         return 5;
       };
-      return getRank(a) - getRank(b);
+
+      const rankA = getRank(a);
+      const rankB = getRank(b);
+      if (rankA !== rankB) return rankA - rankB;
+
+      if (rankA === 3) {
+        const nameA = (a.name || "").toLowerCase();
+        const nameB = (b.name || "").toLowerCase();
+        const grainRankA = nameA.includes("wheat") ? 1 : nameA.includes("barley") ? 2 : 3;
+        const grainRankB = nameB.includes("wheat") ? 1 : nameB.includes("barley") ? 2 : 3;
+
+        if (grainRankA !== grainRankB) return grainRankA - grainRankB;
+
+        const weightA = extractWeight(a);
+        const weightB = extractWeight(b);
+        if (weightA !== weightB) return weightB - weightA;
+      }
+
+      return (a.name || "").localeCompare(b.name || "");
     });
 
     featuredProducts = formatted.slice(0, 8);
@@ -103,7 +132,7 @@ export default async function HomePage() {
   return (
     <>
       {/* ─── Hero Section ──────────────────────────────────── */}
-      <section className="relative min-h-[85vh] lg:min-h-[90vh] flex flex-col justify-between overflow-hidden pt-20 sm:pt-28">
+      <section className="relative min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col justify-between overflow-hidden pt-16 sm:pt-24">
         {/* Dynamic Video Playlist Background with Smooth Transitions */}
         <HeroVideoBackground />
         

@@ -44,7 +44,19 @@ export default async function ProductsPage({
     };
   });
 
-  // Sort products as requested: 1st Kuvvet, 2nd Major Grains, 3rd Kuvvet Porridge, 4th Jhat Hazam
+  // Helper to extract numerical gram weight from title/weight string
+  const extractWeightNum = (item: ProductCardProps): number => {
+    const str = `${item.name || ""} ${item.weight || ""}`.toLowerCase();
+    const matchGrams = str.match(/(\d+)\s*(g|gram|grams)/i);
+    if (matchGrams) return parseInt(matchGrams[1], 10);
+    const matchKg = str.match(/([\d.]+)\s*kg/i);
+    if (matchKg) return Math.round(parseFloat(matchKg[1]) * 1000);
+    const matchNum = str.match(/(\d+)/);
+    if (matchNum) return parseInt(matchNum[1], 10);
+    return 0;
+  };
+
+  // Sort products as requested: 1st Kuvvet, 2nd Major Grains, 3rd Kuvvet Porridge (Wheat first 300g->100g, then Barley 300g->100g), 4th Jhat Hazam
   formattedProducts.sort((a, b) => {
     const getRank = (item: ProductCardProps) => {
       const name = (item.name || "").toLowerCase();
@@ -61,6 +73,22 @@ export default async function ProductsPage({
     const rankA = getRank(a);
     const rankB = getRank(b);
     if (rankA !== rankB) return rankA - rankB;
+
+    // Sub-sorting for Porridges (Group 3): Wheat first (300g->100g), then Barley (300g->100g)
+    if (rankA === 3) {
+      const nameA = (a.name || "").toLowerCase();
+      const nameB = (b.name || "").toLowerCase();
+      const grainRankA = nameA.includes("wheat") ? 1 : nameA.includes("barley") ? 2 : 3;
+      const grainRankB = nameB.includes("wheat") ? 1 : nameB.includes("barley") ? 2 : 3;
+
+      if (grainRankA !== grainRankB) return grainRankA - grainRankB;
+
+      // Descending weight order: 300g -> 250g -> 175g -> 100g
+      const weightA = extractWeightNum(a);
+      const weightB = extractWeightNum(b);
+      if (weightA !== weightB) return weightB - weightA;
+    }
+
     return a.name.localeCompare(b.name);
   });
 

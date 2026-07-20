@@ -64,10 +64,18 @@ export default async function ProductPage({ params }: PageProps) {
               priority
               sizes="(max-width: 768px) 100vw, 50vw"
             />
+            {/* Dropdown Ribbon Discount Tag — Top Left */}
             {discount && (
-              <span className="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
-                -{discount}% OFF
-              </span>
+              <div className="absolute top-0 left-4 z-10 pointer-events-none">
+                <div className="w-12 sm:w-14 h-16 sm:h-18 bg-gradient-to-b from-red-500 via-red-600 to-red-700 text-white rounded-b-2xl shadow-xl border-x border-b border-white/30 flex flex-col items-center justify-center leading-none">
+                  <span className="text-sm sm:text-base font-black tracking-tight drop-shadow-sm">
+                    {discount}%
+                  </span>
+                  <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider mt-0.5 opacity-95">
+                    OFF
+                  </span>
+                </div>
+              </div>
             )}
           </div>
 

@@ -109,24 +109,33 @@ export default function ProductCard({
           />
         </button>
 
-        {/* Badges — top left */}
-        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col gap-1 z-10">
-          {badge && badgeStyle && (
+        {/* Dropdown Ribbon Discount Tag — Top Left */}
+        {discount && (
+          <div className="absolute top-0 left-2.5 sm:left-3.5 z-10 pointer-events-none">
+            <div className="w-10 sm:w-11 h-12 sm:h-14 bg-gradient-to-b from-red-500 via-red-600 to-red-700 text-white rounded-b-xl shadow-lg border-x border-b border-white/30 flex flex-col items-center justify-center leading-none transform group-hover:translate-y-0.5 transition-transform duration-300">
+              <span className="text-xs sm:text-sm font-black tracking-tight drop-shadow-sm">
+                {discount}%
+              </span>
+              <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-wider mt-0.5 opacity-95">
+                OFF
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Additional Badge — placed neatly underneath */}
+        {badge && badgeStyle && (
+          <div className={clsx("absolute left-2.5 sm:left-3.5 flex flex-col items-start gap-1 z-10 pointer-events-none", discount ? "top-14 sm:top-16" : "top-2 sm:top-3")}>
             <span
               className={clsx(
-                "text-[9px] sm:text-[10px] font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full tracking-wider uppercase shadow-sm",
+                "text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded-full tracking-wider uppercase shadow-sm border border-white/20",
                 badgeStyle
               )}
             >
               {badge}
             </span>
-          )}
-          {discount && (
-            <span className="text-[9px] sm:text-[10px] font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-red-600 text-white shadow-sm tracking-wide">
-              -{discount}% OFF
-            </span>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Out of stock overlay */}
         {!inStock && (

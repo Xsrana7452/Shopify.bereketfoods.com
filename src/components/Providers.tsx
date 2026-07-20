@@ -10,18 +10,20 @@ import Navbar from "./Navbar";
 import CartSheet from "./CartSheet";
 import WhatsAppButton from "./WhatsAppButton";
 import Footer from "./Footer";
+import PageLoader from "./PageLoader";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <div className="flex flex-col min-h-screen bg-[var(--color-cream)]">
+      <PageLoader />
       <Navbar />
       <CartSheet />
-      <main className="pt-16 lg:pt-20 min-h-screen bg-[var(--color-cream)]">
+      <main className="flex-1 pt-16 lg:pt-20">
         {children}
       </main>
       <Footer />
       <WhatsAppButton />
-    </>
+    </div>
   );
 }
 

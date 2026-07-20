@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Leaf, Globe, Users, Award } from "lucide-react";
+import AboutVideoBackground from "@/components/AboutVideoBackground";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -37,21 +38,19 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <div className="relative bg-[#1a2e1c] py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="w-full h-full bg-[url('/assets/images/story/about-hero.webp')] bg-cover bg-center" />
-        </div>
-        <div className="relative max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-[var(--color-forest)]/30 border border-[var(--color-forest)] rounded-full px-4 py-2 mb-6">
-            <Leaf className="w-4 h-4 text-[var(--color-forest)]" />
-            <span className="text-sm text-[var(--color-forest)] font-medium">
+      <div className="relative bg-[#1a2e1c] py-16 sm:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden min-h-[50vh] sm:min-h-[55vh] flex items-center justify-center">
+        <AboutVideoBackground />
+        <div className="relative z-20 max-w-4xl mx-auto text-center py-6 sm:py-10">
+          <div className="inline-flex items-center gap-2.5 bg-white/15 backdrop-blur-md border border-white/25 rounded-full px-5 py-2.5 mb-8 shadow-lg">
+            <Leaf className="w-4 h-4 text-amber-400 drop-shadow" />
+            <span className="text-xs sm:text-sm text-white font-bold tracking-widest uppercase">
               EST. 2022 · Islamabad, Pakistan
             </span>
           </div>
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+          <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight drop-shadow-xl tracking-tight">
             Who We Are
           </h1>
-          <p className="text-xl text-[#a8c5ab] max-w-2xl mx-auto leading-relaxed">
+          <p className="hero-paragraph text-lg sm:text-2xl text-white/95 max-w-3xl mx-auto leading-relaxed font-medium drop-shadow-lg">
             A science and nature led Consumer Healthcare and FMCG company that
             aims to utilize nature and science to help people aim more, do more
             and live more.
