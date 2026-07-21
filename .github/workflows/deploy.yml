@@ -40,7 +40,9 @@ jobs:
         uses: appleboy/scp-action@v0.1.7
         with:
           host: premium268.web-hosting.com
+          port: 22
           username: beregulj
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: "deploy.zip"
           target: "/home/beregulj/public_html/shopify"
