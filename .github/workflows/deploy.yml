@@ -28,13 +28,13 @@ jobs:
         run: |
           mkdir deploy
 
-          # Copy standalone application
+          # Copy standalone app
           cp -a .next/standalone/. deploy/
 
-          # Copy the COMPLETE .next folder from standalone
+          # Copy complete .next folder
           cp -a .next/standalone/.next deploy/
 
-          # Copy static assets into .next
+          # Copy static assets
           cp -a .next/static deploy/.next/
 
           # Copy public folder
@@ -72,18 +72,23 @@ jobs:
 
             unzip -oq deploy.zip -d deploy_temp
 
-            # Remove old application but keep tmp
-            find /home/beregulj/public_html/shopify \
-              -mindepth 1 \
-              ! -name tmp \
-              -exec rm -rf {} +
+            cd /home/beregulj/public_html/shopify
 
-            cp -a deploy_temp/. /home/beregulj/public_html/shopify/
+            rm -rf .next
+            rm -rf node_modules
+            rm -rf public
 
-            rm -rf deploy_temp
-            rm -f deploy.zip
+            rm -f server.js
+            rm -f package.json
 
-            echo "===================================="
-            echo "Deployment completed successfully!"
-            echo "Restart the Node.js application."
-            echo "===================================="
+            cp -a /home/beregulj/deploy_temp/. .
+
+            rm -rf /home/beregulj/deploy_temp
+            rm -f /home/beregulj/deploy.zip
+
+            mkdir -p tmp
+            touch tmp/restart.txt
+
+            echo "=================================="
+            echo "Deployment Completed Successfully"
+            echo "=================================="
