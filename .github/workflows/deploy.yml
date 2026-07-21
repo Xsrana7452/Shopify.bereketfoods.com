@@ -24,7 +24,7 @@ jobs:
       - name: Build Next.js
         run: npm run build
 
-      - name: Create deploy.zip
+      - name: Create Deployment Package
         run: |
           mkdir deploy
 
@@ -36,11 +36,17 @@ jobs:
           cd deploy
           zip -r ../deploy.zip .
 
-      - name: Upload deploy.zip
+      - name: Test SSH Port
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y netcat-openbsd
+          nc -vz 162.0.217.219 21098
+
+      - name: Upload deploy.zip to Namecheap
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: premium268.web-hosting.com
-          port: 22
+          host: 162.0.217.219
+          port: 21098
           username: beregulj
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
