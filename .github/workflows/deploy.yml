@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24
@@ -21,17 +21,20 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Build
+      - name: Build Next.js
         run: npm run build
 
       - name: Create deploy.zip
         run: |
           mkdir deploy
-          cp -r .next deploy/
+
+          cp -r .next/standalone/* deploy/
+          mkdir -p deploy/.next
+          cp -r .next/static deploy/.next/
           cp -r public deploy/
-          cp server.js deploy/
-          cp package.json deploy/
-          zip -r deploy.zip deploy
+
+          cd deploy
+          zip -r ../deploy.zip .
 
       - name: Upload deploy.zip
         uses: appleboy/scp-action@v0.1.7
