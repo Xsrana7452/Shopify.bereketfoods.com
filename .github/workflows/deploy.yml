@@ -1,0 +1,43 @@
+name: Deploy to Namecheap
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Create deploy.zip
+        run: |
+          mkdir deploy
+          cp -r .next deploy/
+          cp -r public deploy/
+          cp server.js deploy/
+          cp package.json deploy/
+          zip -r deploy.zip deploy
+
+      - name: Upload deploy.zip
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: premium268.web-hosting.com
+          username: beregulj
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "deploy.zip"
+          target: "/home/beregulj/public_html/shopify"
