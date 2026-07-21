@@ -28,15 +28,22 @@ jobs:
         run: |
           mkdir deploy
 
-          cp -r .next/standalone/* deploy/
-          mkdir -p deploy/.next
-          cp -r .next/static deploy/.next/
-          cp -r public deploy/
+          # Copy standalone application
+          cp -a .next/standalone/. deploy/
+
+          # Copy the COMPLETE .next folder from standalone
+          cp -a .next/standalone/.next deploy/
+
+          # Copy static assets into .next
+          cp -a .next/static deploy/.next/
+
+          # Copy public folder
+          cp -a public deploy/
 
           cd deploy
           zip -r ../deploy.zip .
 
-      - name: Upload deploy.zip to Namecheap
+      - name: Upload deploy.zip
         uses: appleboy/scp-action@v0.1.7
         with:
           host: 162.0.217.219
@@ -60,26 +67,23 @@ jobs:
 
             cd /home/beregulj
 
-            echo "Removing previous temporary deployment..."
             rm -rf deploy_temp
-
-            echo "Creating deployment directory..."
             mkdir deploy_temp
 
-            echo "Extracting deploy.zip..."
             unzip -oq deploy.zip -d deploy_temp
 
-            echo "Cleaning application directory..."
-            find /home/beregulj/public_html/shopify -mindepth 1 -delete
+            # Remove old application but keep tmp
+            find /home/beregulj/public_html/shopify \
+              -mindepth 1 \
+              ! -name tmp \
+              -exec rm -rf {} +
 
-            echo "Copying new files..."
             cp -a deploy_temp/. /home/beregulj/public_html/shopify/
 
-            echo "Removing temporary files..."
             rm -rf deploy_temp
             rm -f deploy.zip
 
-            echo "======================================"
+            echo "===================================="
             echo "Deployment completed successfully!"
-            echo "Please restart the Node.js app from cPanel."
-            echo "======================================"
+            echo "Restart the Node.js application."
+            echo "===================================="
