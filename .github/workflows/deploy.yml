@@ -74,21 +74,24 @@ jobs:
 
             cd /home/beregulj/public_html/shopify
 
-            rm -rf .next
-            rm -rf node_modules
-            rm -rf public
+            # Delete everything except .htaccess and tmp
+            find . \
+              -mindepth 1 \
+              ! -name ".htaccess" \
+              ! -name "tmp" \
+              -exec rm -rf {} +
 
-            rm -f server.js
-            rm -f package.json
-
+            # Copy new files
             cp -a /home/beregulj/deploy_temp/. .
 
+            # Cleanup
             rm -rf /home/beregulj/deploy_temp
             rm -f /home/beregulj/deploy.zip
 
+            # Restart Passenger
             mkdir -p tmp
             touch tmp/restart.txt
 
-            echo "=================================="
-            echo "Deployment Completed Successfully"
-            echo "=================================="
+            echo "====================================="
+            echo "Deployment Completed Successfully!"
+            echo "====================================="
